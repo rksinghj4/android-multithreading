@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.multithreading.ui.theme.MultiThreadsLearningTheme
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TaskOnMainThread : ComponentActivity() {
+class TaskOnSeparateThread : ComponentActivity() {
     private var shouldInfiniteLoop = AtomicBoolean(false)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,34 +58,42 @@ class TaskOnMainThread : ComponentActivity() {
                                 Button(onClick = {
                                     shouldInfiniteLoop.set(true)
                                     /**
-                                     * This infinite loop will occupy the main thread.
-                                     * Not other UI rendering, animation, and click will be accepted until
-                                     * loop terminates. Once main looper is free to take click events/ui updates
-                                     * then it will deque them and show the results.
+                                     * Since it's separate thread
+                                     * This infinite loop will not occupy the main thread.
+                                     * All other UI rendering, animation, and click will be accepted by main looper.
                                      */
-                                    while (Thread.currentThread().isAlive && shouldInfiniteLoop.get()) {
-                                        Log.d(TAG, "Counter: $counterState")
-                                        counterState += 1
-                                        Thread.sleep(1000)
-                                        if (counterState > 10) {
-                                            /**
-                                             * Modern ways to suspend/stop a thread are by using a boolean flag and Thread.interrupt() method.
-                                             *
-                                             */
-                                            Thread.currentThread().interrupt()//This will end the running process.
+                                    Thread(Runnable {
+                                        while (Thread.currentThread().isAlive && shouldInfiniteLoop.get()) {
+                                            Log.d(
+                                                TAG,
+                                                "name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id}, Counter: $counterState"
+                                            )
+                                            counterState += 1
+                                            Thread.sleep(1000)
+                                            if (counterState > 10) {
+                                                /**
+                                                 * Modern ways to suspend/stop a thread are by using a boolean flag and Thread.interrupt() method.
+                                                 *
+                                                 */
+
+                                                Thread.currentThread()
+                                                    .interrupt()//This will end the running process.
+                                            }
+                                            if (counterState > 20) {
+                                                break
+                                            }
                                         }
-                                        if (counterState > 20) {
-                                            break
-                                        }
-                                    }
+                                    }).start()
+
                                 }) {
                                     Text(text = "Start loop")
                                 }
 
                                 Button(onClick = {
-                                    //This click itself/lambda will not be processed/executed by
-                                    // main looper because of infinite loop above. So Thread.sleep(2000)
-                                    // will not executed until main thread is free.
+                                    //This click itself/lambda will be processed/executed by
+                                    // main looper because it is separate from above infinite thread.
+                                    // So Thread.sleep(2000) will be executed on main thread
+                                    // since it is free to process the request.
                                     counterState += 1
                                     Log.d(TAG, "Stop loop clicked $counterState")
                                     //Thread.currentThread().join(5000)
@@ -108,7 +116,7 @@ class TaskOnMainThread : ComponentActivity() {
     companion object {
         private const val THREAD_ID = "thread_id"
         fun show(context: Context, threadId: Long) {
-            Intent(context, TaskOnMainThread::class.java).apply {
+            Intent(context, TaskOnSeparateThread::class.java).apply {
                 putExtra(THREAD_ID, threadId)
             }.also {
                 context.startActivity(it)

@@ -38,7 +38,9 @@ class MainActivity : ComponentActivity() {
         onRunLoopOnMainThread = {
             TaskOnMainThread.show(context = context, Thread.currentThread().id)
         },
-        onRunLoopSeparateThreadThread = {}
+        onRunLoopSeparateThreadThread = {
+            TaskOnSeparateThread.show(context =context, Thread.currentThread().id)
+        }
     )
 }
 
