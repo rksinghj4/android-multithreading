@@ -50,9 +50,12 @@ class TaskOnSeparateThread : ComponentActivity() {
 
                             Text(text = "threadGroup: ${Thread.currentThread().threadGroup}")
 
-                            Text(text = "name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id} and Counter: $counterState")
+                            Text(text = "Thread name: ${Thread.currentThread().name}, Id: ${Thread.currentThread().id} and Counter: $counterState")
 
-
+                            /**
+                             * Background thread can't update the view.
+                             * Only thread which created the view hierarchy can update the Views(i.e.Main)
+                             */
 
                             Row {
                                 Button(onClick = {
@@ -66,9 +69,27 @@ class TaskOnSeparateThread : ComponentActivity() {
                                         while (Thread.currentThread().isAlive && shouldInfiniteLoop.get()) {
                                             Log.d(
                                                 TAG,
-                                                "name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id}, Counter: $counterState"
+                                                "In While:  Thread name -  ${Thread.currentThread().name}, Id - ${Thread.currentThread().id}, Counter - $counterState"
                                             )
+                                            /**
+                                             * Advantage of compose state: To update UI from bg thread
+                                             * here we are not creating -
+                                             *
+                                             * Handler(Looper.getMainLooper())
+                                             * .post(Runnable {
+                                             *     Code for posting the task to main thread.
+                                             *     eg. textView.setText("Update UI from background thread")
+                                             * })
+                                             *
+                                             * or another short cut to do same is:
+                                             *
+                                             *textView.post(Runnable {
+                                             * textView.setText("Update UI from background thread")
+                                             * })
+                                             *
+                                             */
                                             counterState += 1
+
                                             Thread.sleep(1000)
                                             if (counterState > 10) {
                                                 /**
@@ -97,7 +118,7 @@ class TaskOnSeparateThread : ComponentActivity() {
                                     counterState += 1
                                     Log.d(
                                         TAG,
-                                        "Stop loop clicked $counterState on Thread name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id}"
+                                        "Stop loop clicked:  $counterState on Thread name- ${Thread.currentThread().name}, Id- ${Thread.currentThread().id}"
                                     )
                                     //Thread.currentThread().join(5000)
                                     Thread.sleep(1000)
@@ -106,7 +127,6 @@ class TaskOnSeparateThread : ComponentActivity() {
                                     Text(text = "Stop loop")
                                 }
                             }
-
 
                             //Text(text = "contextClassLoader: ${Thread.currentThread().contextClassLoader}")
                         }
