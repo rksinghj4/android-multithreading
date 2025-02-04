@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.multithreading.ui.theme.MultiThreadsLearningTheme
@@ -21,17 +23,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    
                     val context = LocalContext.current
-
-                    MainScreen(clickAction(context))
+                    Column {
+                        Text(text = "Executed on : ${Thread.currentThread().name}, Id: ${Thread.currentThread().id}")
+                        MainScreen(clickAction(context))
+                    }
                 }
             }
         }
     }
 
-    fun clickAction(context: Context) = Actions(
+    private fun clickAction(context: Context) = Actions(
         onRunLoopOnMainThread = {
-
+            TaskOnMainThread.show(context = context, Thread.currentThread().id)
         },
         onRunLoopSeparateThreadThread = {}
     )

@@ -29,13 +29,15 @@ data class Actions(
 )
 
 @Composable
-fun MainScreen(action: Actions) {
+fun MainScreen(clickAction: Actions) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { clickAction.onRunLoopOnMainThread.invoke() }) {
             Text(text = "Run Loop on MainThread")
         }
 
@@ -83,6 +85,6 @@ fun MainScreen(action: Actions) {
 @Composable
 fun MainPreview() {
     MultiThreadsLearningTheme {
-        MainScreen(action = Actions())
+        MainScreen(clickAction = Actions())
     }
 }
