@@ -1,4 +1,4 @@
-package com.multithreading
+package com.multithreading.threading
 
 import android.content.Context
 import android.content.Intent
@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.multithreading.TAG
 import com.multithreading.ui.theme.MultiThreadsLearningTheme
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -42,7 +43,7 @@ class TaskOnSeparateThread : ComponentActivity() {
                             var counterState by rememberSaveable {
                                 mutableIntStateOf(0)
                             }
-                            Text(text = "Previous screen: name - ${Thread.currentThread().name}, ThreadId - $threadIdFromPreviousScreen")
+                            Text(text = "Previous screen: , ThreadId - $threadIdFromPreviousScreen")
 
                             Text(text = "Thread Id: ${Thread.currentThread().id}")
 
@@ -91,6 +92,11 @@ class TaskOnSeparateThread : ComponentActivity() {
                                             counterState += 1
 
                                             Thread.sleep(1000)
+
+                                            if (counterState > 11) {
+                                                break
+                                            }
+
                                             if (counterState > 10) {
                                                 /**
                                                  * Modern ways to suspend/stop a thread are by using a boolean flag and Thread.interrupt() method.
@@ -99,9 +105,6 @@ class TaskOnSeparateThread : ComponentActivity() {
 
                                                 Thread.currentThread()
                                                     .interrupt()//This will end the running process.
-                                            }
-                                            if (counterState > 20) {
-                                                break
                                             }
                                         }
                                     }).start()

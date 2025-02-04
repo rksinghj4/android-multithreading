@@ -1,4 +1,4 @@
-package com.multithreading
+package com.multithreading.threading
 
 import android.content.Context
 import android.content.Intent
@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.multithreading.TAG
 import com.multithreading.ui.theme.MultiThreadsLearningTheme
 import java.util.concurrent.atomic.AtomicBoolean
 

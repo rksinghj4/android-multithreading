@@ -13,10 +13,13 @@
         android:theme="@style/Theme.MultiThreadsLearning"
         tools:targetApi="31">
         <activity
-            android:name=".TaskOnSeparateThread"
+            android:name=".asynctask.TaskOnBGThreadUsingAsyncTask"
             android:exported="false" />
         <activity
-            android:name=".TaskOnMainThread"
+            android:name=".threading.TaskOnSeparateThread"
+            android:exported="false" />
+        <activity
+            android:name=".threading.TaskOnMainThread"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

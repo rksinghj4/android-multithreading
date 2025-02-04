@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewFontScale
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
@@ -27,7 +26,8 @@ import com.multithreading.ui.theme.MultiThreadsLearningTheme
 
 data class Actions(
     val onRunLoopOnMainThread: () -> Unit = {},
-    val onRunLoopSeparateThreadThread: () -> Unit = {}
+    val onRunLoopOnSeparateThread: () -> Unit = {},
+    val onRunLoopInAsyncTask: () -> Unit = {}
 )
 
 @Composable
@@ -44,12 +44,12 @@ fun MainScreen(clickAction: Actions) {
         }
 
         TextButton(modifier = Modifier.background(Color.Green),
-            onClick = { clickAction.onRunLoopSeparateThreadThread() }) {
+            onClick = { clickAction.onRunLoopOnSeparateThread() }) {
             Text(text = "TextButton: Run Loop on Separate Thread")
         }
 
-        ElevatedButton(onClick = { /*TODO*/ }) {
-            Text(text = "ElevatedButton: Run Loop on Separate")
+        ElevatedButton(onClick = clickAction.onRunLoopInAsyncTask) {
+            Text(text = "ElevatedButton: Run Loop in AsyncTask")
         }
 
         ExtendedFloatingActionButton(
