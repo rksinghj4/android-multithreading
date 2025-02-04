@@ -23,10 +23,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    
+
                     val context = LocalContext.current
                     Column {
-                        Text(text = "Executed on : ${Thread.currentThread().name}, Id: ${Thread.currentThread().id}")
+                        Text(text = "Executed on : Thread ${Thread.currentThread().name}, Id: ${Thread.currentThread().id}")
                         MainScreen(clickAction(context))
                     }
                 }
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
             TaskOnMainThread.show(context = context, Thread.currentThread().id)
         },
         onRunLoopSeparateThreadThread = {
-            TaskOnSeparateThread.show(context =context, Thread.currentThread().id)
+            TaskOnSeparateThread.show(context = context, Thread.currentThread().id)
         }
     )
 }

@@ -42,15 +42,15 @@ class TaskOnSeparateThread : ComponentActivity() {
                             var counterState by rememberSaveable {
                                 mutableIntStateOf(0)
                             }
-                            Text(text = "Previous screen ThreadId: $threadIdFromPreviousScreen")
+                            Text(text = "Previous screen: name - ${Thread.currentThread().name}, ThreadId - $threadIdFromPreviousScreen")
 
                             Text(text = "Thread Id: ${Thread.currentThread().id}")
 
-                            Text(text = "name: ${Thread.currentThread().name}")
+                            Text(text = "Thread name: ${Thread.currentThread().name}")
 
                             Text(text = "threadGroup: ${Thread.currentThread().threadGroup}")
 
-                            Text(text = "name: ${Thread.currentThread().name} and Counter: $counterState")
+                            Text(text = "name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id} and Counter: $counterState")
 
 
 
@@ -95,7 +95,10 @@ class TaskOnSeparateThread : ComponentActivity() {
                                     // So Thread.sleep(2000) will be executed on main thread
                                     // since it is free to process the request.
                                     counterState += 1
-                                    Log.d(TAG, "Stop loop clicked $counterState")
+                                    Log.d(
+                                        TAG,
+                                        "Stop loop clicked $counterState on Thread name: ${Thread.currentThread().name}, Id:${Thread.currentThread().id}"
+                                    )
                                     //Thread.currentThread().join(5000)
                                     Thread.sleep(1000)
                                     shouldInfiniteLoop.set(false)
