@@ -3,7 +3,10 @@ package com.multithreading
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
@@ -42,15 +45,45 @@ fun MainScreen(clickAction: Actions) {
         Button(onClick = { clickAction.onRunLoopOnMainThread.invoke() }) {
             Text(text = "Run Loop on MainThread")
         }
-
+        Spacer(
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    color = Color.Black,
+                    shape = DottedShape(step = 20.dp)
+                )
+        )
         TextButton(modifier = Modifier.background(Color.Green),
             onClick = { clickAction.onRunLoopOnSeparateThread() }) {
             Text(text = "TextButton: Run Loop on Separate Thread")
         }
 
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    color = Color.Green,
+                    shape = DottedShape(step = 16.dp)
+                )
+        )
+
         ElevatedButton(onClick = clickAction.onRunLoopInAsyncTask) {
             Text(text = "ElevatedButton: Run Loop in AsyncTask")
         }
+
+        Spacer(
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    color = Color.DarkGray,
+                    shape = DottedShape(step = 8.dp)
+                )
+        )
 
         ExtendedFloatingActionButton(
             text = {
@@ -66,6 +99,16 @@ fun MainScreen(clickAction: Actions) {
 
             }
         )
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    color = Color.Blue,
+                    shape = DottedShape(step = 4.dp)
+                )
+        )
     }
 }
 
@@ -79,12 +122,9 @@ fun MainScreen(clickAction: Actions) {
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    apiLevel = 34,
     wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
-    fontScale = 1f,
     device = Devices.NEXUS_5
 )
-
 @Composable
 fun MainPreview() {
     MultiThreadsLearningTheme {
