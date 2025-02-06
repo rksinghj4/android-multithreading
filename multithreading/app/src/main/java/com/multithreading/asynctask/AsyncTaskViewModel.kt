@@ -37,6 +37,9 @@ class AsyncTaskViewModel : ViewModel() {
     }
 
     fun stopLongRunningTask() {
-        asyncTask.stopBackgroundTask()
+        asyncTask.cancel(false)
+        //asyncTask.cancel(true) //Interrupt the thread
+
+        //asyncTask.stopBackgroundTask()
     }
 }

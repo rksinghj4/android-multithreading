@@ -5,6 +5,7 @@ import android.util.Log
 import com.multithreading.LONG_RUNNING_TASK_TIMEOUT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
@@ -83,6 +84,9 @@ class AsyncTaskImpl(
                     )
                     counter++
                     publishProgress(counter)//send the progress
+                    if (isCancelled) {//Used when asyncTask.cancel() is called
+                        break
+                    }
                     if (counter >= LONG_RUNNING_TASK_TIMEOUT) {
                         break
                     }
@@ -122,6 +126,19 @@ class AsyncTaskImpl(
          * can be executed: textView.setText("Final Counter: ${result}")
          */
         onComplete.invoke(result)
+    }
+
+    /**
+     * onPostExecute(result) will not called if we call
+     * asyncTask.cancel() -> triggered onCancelled($result).
+     * SO update the UI in onCancelled if needed
+     */
+    //Run on Main thread
+    override fun onCancelled(result: Int) {
+        super.onCancelled(result)
+        Log.d(TAG, "cancel() -> onCancelled($result)")
+        onComplete.invoke(result)
+        //When asyncTask.cancel() then this method is called. We can update UI if needed.
     }
 
     fun stopBackgroundTask() {
