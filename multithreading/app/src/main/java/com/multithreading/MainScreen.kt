@@ -30,7 +30,8 @@ import com.multithreading.ui.theme.MultiThreadsLearningTheme
 data class Actions(
     val onRunLoopOnMainThread: () -> Unit = {},
     val onRunLoopOnSeparateThread: () -> Unit = {},
-    val onRunLoopInAsyncTask: () -> Unit = {}
+    val onRunLoopInAsyncTask: () -> Unit = {},
+    val onRunCustomLooper: () -> Unit = {},
 )
 
 @Composable
@@ -87,7 +88,7 @@ fun MainScreen(clickAction: Actions) {
 
         ExtendedFloatingActionButton(
             text = {
-                Text(text = "Test ExtendedFloatingActionButton")
+                Text(text = "CustomLooper communication")
             },
             icon = {
                 Icon(
@@ -96,7 +97,7 @@ fun MainScreen(clickAction: Actions) {
                 )
             },
             onClick = {
-
+                clickAction.onRunCustomLooper.invoke()
             }
         )
 

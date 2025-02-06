@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.multithreading.asynctask.TaskOnBGThreadUsingAsyncTask
+import com.multithreading.customlooper.CustomLooperActivity
 import com.multithreading.threading.TaskOnMainThread
 import com.multithreading.threading.TaskOnSeparateThread
 import com.multithreading.ui.theme.MultiThreadsLearningTheme
@@ -46,6 +47,9 @@ class MainActivity : ComponentActivity() {
         },
         onRunLoopInAsyncTask = {
             TaskOnBGThreadUsingAsyncTask.show(context, Thread.currentThread().id)
+        },
+        onRunCustomLooper = {
+            CustomLooperActivity.show(context)
         }
     )
 }

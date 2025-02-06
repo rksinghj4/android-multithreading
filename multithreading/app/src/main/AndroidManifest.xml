@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MultiThreadsLearning"
         tools:targetApi="31">
         <activity
+            android:name=".customlooper.CustomLooperActivity"
+            android:exported="false" />
+        <activity
             android:name=".asynctask.TaskOnBGThreadUsingAsyncTask"
             android:exported="false" />
         <activity
